@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Portfolio of Elmir Aliyev, backend-focused software engineer and Information Systems student." />
+  <title>Elmir Aliyev | Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="noise-layer" aria-hidden="true"></div>
+  <main class="shell" id="home">
+    <header class="topbar reveal" style="--delay: 40ms">
+      <a class="brand" href="#home">Elmir Aliyev</a>
+      <nav class="menu" aria-label="Primary navigation">
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#work">Work</a>
+      </nav>
+      <div class="socials">
+        <a href="https://www.linkedin.com/in/elmiraliyev1/" target="_blank" rel="noreferrer">LinkedIn</a>
+        <a href="https://github.com/elmiraliyev123" target="_blank" rel="noreferrer">GitHub</a>
+        <a href="mailto:elmir.aliyev@ug.bilkent.edu.tr">Email</a>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="hero-copy reveal" style="--delay: 130ms">
+        <p class="intro">Hello, I'm Elmir,</p>
+        <h1>Backend & Mobile Engineer</h1>
+        <p class="location">based in Ankara, Turkey.</p>
+        <p class="summary">
+          3rd-year Information Systems student and backend-focused software engineer building production-ready Laravel and Kotlin applications.
+          I am currently seeking a mandatory summer internship for June-September 2026 in European startups.
+        </p>
+        <div class="actions">
+          <a class="btn btn-primary" href="assets/ElmirAliyevCV.pdf" download>Resume</a>
+          <a class="btn btn-secondary" href="mailto:elmir.aliyev@ug.bilkent.edu.tr">Let's Connect</a>
+        </div>
+      </div>
+
+      <figure class="portrait-wrap reveal" style="--delay: 250ms">
+        <div class="avatar-fallback" role="img" aria-label="Elmir Aliyev initials">
+          <span class="initials">EA</span>
+          <span class="status">Open to Internship</span>
+        </div>
+        <span class="ornament top">++<br />++</span>
+        <span class="ornament bottom">/////</span>
+      </figure>
+    </section>
+
+    <section class="section reveal" id="about" style="--delay: 100ms">
+      <h2>About</h2>
+      <p class="section-subtitle">
+        Experienced in Dockerized Laravel deployment, REST API design, and Android development with Kotlin. Erasmus+ traineeship funding is secured.
+      </p>
+      <div class="about-grid">
+        <article class="card">
+          <h3>Internship Window</h3>
+          <p>Available June 2026 to September 2026 for CTIS mandatory summer internship requirements.</p>
+        </article>
+        <article class="card">
+          <h3>Current Education</h3>
+          <p>B.Sc. Information Systems and Technologies (CTIS), Bilkent University, expected graduation in 2027.</p>
+        </article>
+        <article class="card">
+          <h3>Core Stack</h3>
+          <p>Laravel, PHP, MySQL, Docker, Kotlin, Android SDK, Room Database, REST APIs, and JWT authentication.</p>
+        </article>
+        <article class="card">
+          <h3>Value Add</h3>
+          <p>Erasmus+ funding secured, reducing internship employer cost while delivering production-focused engineering.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section reveal" id="work" style="--delay: 140ms">
+      <h2>Selected Work</h2>
+      <p class="section-subtitle">Projects shipped with a focus on reliability, performance, and clean architecture.</p>
+      <div class="work-grid">
+        <article class="project-card">
+          <div class="project-head">
+            <h3>AutoLens - Event Management Platform</h3>
+            <a href="https://github.com/elmiraliyev123/256project" target="_blank" rel="noreferrer">Repo</a>
+          </div>
+          <p class="stack">PHP - MySQL - REST APIs</p>
+          <ul>
+            <li>Implemented backend services for event listings with data integrity guarantees.</li>
+            <li>Built dynamic filtering APIs that improved query performance by 40%.</li>
+            <li>Managed production deployment and domain setup with 99.5% uptime.</li>
+          </ul>
+        </article>
+
+        <article class="project-card">
+          <div class="project-head">
+            <h3>BilMatch - Campus Social Platform</h3>
+            <a href="https://github.com/elmiraliyev123/BilMatch2" target="_blank" rel="noreferrer">Repo</a>
+          </div>
+          <p class="stack">Laravel - Docker - JWT - MySQL</p>
+          <ul>
+            <li>Developed a Dockerized Laravel web platform for university students.</li>
+            <li>Implemented secure JWT authentication and optimized database queries.</li>
+            <li>Reduced page load times to under 0.8 seconds in production.</li>
+          </ul>
+        </article>
+
+        <article class="project-card">
+          <div class="project-head">
+            <h3>PharmacyOn - Inventory App</h3>
+            <a href="https://github.com/elmiraliyev123/PharmacyOn-" target="_blank" rel="noreferrer">Repo</a>
+          </div>
+          <p class="stack">Kotlin - Android SDK - Room DB - REST Sync</p>
+          <ul>
+            <li>Building native Android inventory workflows using Kotlin and Android SDK.</li>
+            <li>Implemented offline-first data handling with Room Database.</li>
+            <li>Designed automatic conflict resolution for unstable network transitions.</li>
+          </ul>
+        </article>
+
+        <article class="project-card">
+          <div class="project-head">
+            <h3>Car Rental System</h3>
+            <a href="https://github.com/elmiraliyev123/CarRentalSystem-Java" target="_blank" rel="noreferrer">Repo</a>
+          </div>
+          <p class="stack">Java - Swing - OOP Refactoring</p>
+          <ul>
+            <li>Built a desktop management application with Java Swing interfaces.</li>
+            <li>Refactored workflows with polymorphism and cleaner object models.</li>
+            <li>Reduced code duplication by 45% across rental workflows.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="section split reveal" style="--delay: 170ms">
+      <article class="panel">
+        <h2>Education & Certifications</h2>
+        <div class="timeline-item">
+          <h3>Bilkent University - B.Sc. CTIS</h3>
+          <p class="meta">Ankara, Turkey | 2023 - Present (Expected 2027)</p>
+          <p>Relevant coursework: Algorithms, DBMS, Web Technologies, OOP, and Computer Networks.</p>
+        </div>
+        <div class="timeline-item">
+          <h3>Metropolia University - Applied Cybersecurity</h3>
+          <p class="meta">Helsinki, Finland | Summer 2025</p>
+          <p>Covered OWASP Top 10 vulnerabilities, secure coding, and network security fundamentals.</p>
+        </div>
+        <div class="timeline-item">
+          <h3>Azerbaijan State Oil and Industry University</h3>
+          <p class="meta">Baku, Azerbaijan | 2022 - 2023</p>
+          <p>Started Software Engineering studies before transferring to Bilkent University.</p>
+        </div>
+        <div class="timeline-item">
+          <h3>Cisco CCNA - Fundamentals of Computer Networks</h3>
+          <p class="meta">Participation</p>
+        </div>
+      </article>
+
+      <article class="panel">
+        <h2>Involvement</h2>
+        <div class="timeline-item">
+          <h3>Technical Translator - Khan Academy Azerbaijani</h3>
+          <p class="meta">February 2023 - May 2023</p>
+          <p>Localized IT and mathematics educational content, including technical programming terminology.</p>
+        </div>
+        <div class="timeline-item">
+          <h3>Organizing Team Member - TEDx Bilkent University</h3>
+          <p class="meta">January 2024 - April 2024</p>
+          <p>Supported logistics and cross-team communication during event planning and execution.</p>
+        </div>
+      </article>
+    </section>
+
+    <section class="section reveal" style="--delay: 200ms">
+      <h2>Skills</h2>
+      <div class="skills-grid">
+        <article class="skill-card">
+          <h3>Programming Languages</h3>
+          <ul class="chips">
+            <li>PHP</li><li>Kotlin</li><li>Java</li><li>Python</li><li>SQL</li><li>C</li><li>C++</li>
+          </ul>
+        </article>
+        <article class="skill-card">
+          <h3>Backend & Mobile</h3>
+          <ul class="chips">
+            <li>Laravel</li><li>Spring Boot</li><li>REST APIs</li><li>JWT</li><li>Android SDK</li><li>Room DB</li><li>MySQL</li>
+          </ul>
+        </article>
+        <article class="skill-card">
+          <h3>Concepts & Languages</h3>
+          <ul class="chips">
+            <li>OOP</li><li>MVC</li><li>Clean Architecture</li><li>Database Design</li><li>Network Security</li><li>English</li><li>Turkish</li><li>Russian</li><li>Azerbaijani</li><li>German (Basic)</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <footer class="footer reveal" style="--delay: 240ms">
+      <span>Elmir Aliyev - Backend-Focused Software Engineer</span>
+      <span>© <span id="year"></span> Ankara, Turkey</span>
+    </footer>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
