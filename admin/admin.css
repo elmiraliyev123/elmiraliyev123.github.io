@@ -1,0 +1,265 @@
+:root {
+  --bg: #ece9bf;
+  --bg-soft: #f5f2d8;
+  --ink: #0d1b7c;
+  --ink-soft: #2f3a86;
+  --card: #f8f5de;
+  --line: rgba(13, 27, 124, 0.18);
+  --accent: #dad04f;
+  --accent-soft: #efe88a;
+  --success: #246a41;
+  --danger: #8c2f2f;
+  --shadow: 0 20px 60px rgba(13, 27, 124, 0.14);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--ink);
+  font-family: "Manrope", sans-serif;
+  background:
+    radial-gradient(1200px 560px at 8% -12%, #f8f6de 0%, rgba(248, 246, 222, 0) 68%),
+    radial-gradient(980px 480px at 98% 6%, #e6e2b8 0%, rgba(230, 226, 184, 0) 74%),
+    var(--bg);
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+.noise-layer {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  opacity: 0.14;
+  background-image: radial-gradient(circle at 20% 20%, rgba(13, 27, 124, 0.16) 0 1px, transparent 1px);
+  background-size: 5px 5px;
+  mix-blend-mode: multiply;
+}
+
+.admin-shell {
+  position: relative;
+  width: min(1280px, calc(100% - 2rem));
+  margin: 1rem auto 2rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.back-link {
+  width: fit-content;
+  color: var(--ink-soft);
+  text-decoration: none;
+  font-weight: 800;
+}
+
+.hero-card,
+.panel {
+  background: rgba(248, 245, 222, 0.92);
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  box-shadow: var(--shadow);
+}
+
+.hero-card {
+  padding: 1.35rem 1.4rem 1.55rem;
+}
+
+.hero-card h1,
+.panel h2 {
+  margin: 0;
+  font-family: "Sora", sans-serif;
+  letter-spacing: -0.02em;
+}
+
+.hero-copy,
+.panel-copy,
+.status-message {
+  color: var(--ink-soft);
+}
+
+.panel {
+  padding: 1.2rem;
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: start;
+}
+
+.panel-copy {
+  margin: 0;
+  max-width: 34rem;
+  line-height: 1.6;
+}
+
+.eyebrow {
+  margin: 0 0 0.35rem;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(79, 74, 20, 0.82);
+}
+
+.stack-form,
+.field,
+.editor-grid {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.stack-form {
+  margin-top: 1rem;
+}
+
+.editor-grid {
+  margin-top: 1rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.field-wide {
+  grid-column: 1 / -1;
+}
+
+label {
+  display: grid;
+  gap: 0.4rem;
+  font-weight: 700;
+}
+
+input,
+textarea {
+  width: 100%;
+  border: 1px solid rgba(13, 27, 124, 0.22);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.52);
+  color: var(--ink);
+  padding: 0.82rem 0.92rem;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 7rem;
+}
+
+input:focus,
+textarea:focus {
+  outline: 2px solid rgba(13, 27, 124, 0.18);
+  outline-offset: 2px;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+  gap: 1rem;
+}
+
+.form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+}
+
+.btn,
+.text-button {
+  border: 0;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 800;
+}
+
+.btn {
+  padding: 0.82rem 1.25rem;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent), var(--accent-soft));
+  color: #4f4a14;
+}
+
+.btn-secondary,
+.text-button {
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid rgba(13, 27, 124, 0.24);
+}
+
+.text-button {
+  padding: 0.58rem 0.9rem;
+}
+
+.status-message {
+  min-height: 1.25rem;
+  margin: 0.85rem 0 0;
+  line-height: 1.5;
+}
+
+.status-message.success {
+  color: var(--success);
+}
+
+.status-message.error {
+  color: var(--danger);
+}
+
+.publication-admin-list {
+  margin-top: 1rem;
+  display: grid;
+  gap: 0.85rem;
+}
+
+.publication-admin-card,
+.empty-state {
+  background: linear-gradient(180deg, rgba(248, 245, 222, 0.98), rgba(243, 239, 208, 0.9));
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 1rem 1.05rem;
+}
+
+.publication-admin-card h3,
+.empty-state h3 {
+  margin: 0;
+  font-family: "Sora", sans-serif;
+  font-size: 1.08rem;
+}
+
+.publication-meta,
+.publication-summary {
+  margin: 0.52rem 0 0;
+  color: var(--ink-soft);
+  line-height: 1.55;
+}
+
+.publication-admin-actions {
+  margin-top: 0.9rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.hidden {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .dashboard-grid,
+  .editor-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .field-wide {
+    grid-column: auto;
+  }
+
+  .panel-header {
+    flex-direction: column;
+  }
+}

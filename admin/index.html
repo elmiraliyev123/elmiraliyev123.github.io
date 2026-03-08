@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Publications Admin | Elmir Aliyev</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="admin.css" />
+</head>
+<body>
+  <div class="noise-layer" aria-hidden="true"></div>
+  <main class="admin-shell">
+    <a class="back-link" href="/">Back to portfolio</a>
+
+    <section class="hero-card">
+      <p class="eyebrow">Hidden Route</p>
+      <h1>Publications Admin</h1>
+      <p class="hero-copy">
+        Manage the publications section of the portfolio. This page is intentionally not linked in the public navbar.
+      </p>
+    </section>
+
+    <section class="panel" id="login-panel">
+      <div class="panel-header">
+        <div>
+          <p class="eyebrow">Login</p>
+          <h2>Admin access</h2>
+        </div>
+        <p class="panel-copy">
+          This check runs in the browser because the portfolio is a static site. It hides the UI, but it is not server-side security.
+        </p>
+      </div>
+      <form id="login-form" class="stack-form">
+        <label>
+          Username
+          <input id="username" name="username" type="text" autocomplete="username" required />
+        </label>
+        <label>
+          Password
+          <input id="password" name="password" type="password" autocomplete="current-password" required />
+        </label>
+        <div class="form-actions">
+          <button class="btn btn-primary" type="submit">Unlock admin</button>
+        </div>
+      </form>
+      <p class="status-message" id="login-status" role="status" aria-live="polite"></p>
+    </section>
+
+    <section class="dashboard hidden" id="dashboard">
+      <div class="dashboard-grid">
+        <article class="panel">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">Editor</p>
+              <h2>Add or update publication</h2>
+            </div>
+            <button class="text-button" id="logout-button" type="button">Logout</button>
+          </div>
+          <form id="publication-form" class="editor-grid">
+            <input id="publication-id" name="publicationId" type="hidden" />
+
+            <label class="field field-wide">
+              Title
+              <input id="publication-title" name="title" type="text" required />
+            </label>
+
+            <label class="field field-wide">
+              Authors
+              <input id="publication-authors" name="authors" type="text" placeholder="Elmir Aliyev, Co-author Name" />
+            </label>
+
+            <label class="field">
+              Year
+              <input id="publication-year" name="year" type="number" min="1900" max="2100" placeholder="2026" />
+            </label>
+
+            <label class="field">
+              Type
+              <input id="publication-type" name="type" type="text" placeholder="Journal, Preprint, Conference" />
+            </label>
+
+            <label class="field field-wide">
+              Venue
+              <input id="publication-venue" name="venue" type="text" placeholder="Journal name, conference, or publisher" />
+            </label>
+
+            <label class="field field-wide">
+              Summary
+              <textarea id="publication-summary" name="summary" rows="4" placeholder="Short abstract or one-paragraph summary"></textarea>
+            </label>
+
+            <label class="field">
+              Link label
+              <input id="publication-link-label" name="linkLabel" type="text" placeholder="Open publication" />
+            </label>
+
+            <label class="field">
+              Link URL
+              <input id="publication-url" name="url" type="url" placeholder="https://..." />
+            </label>
+
+            <div class="form-actions field-wide">
+              <button class="btn btn-primary" type="submit">Save publication</button>
+              <button class="btn btn-secondary" id="clear-form-button" type="button">Clear form</button>
+            </div>
+          </form>
+          <p class="status-message" id="editor-status" role="status" aria-live="polite"></p>
+        </article>
+
+        <article class="panel">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">Publish</p>
+              <h2>Push changes live</h2>
+            </div>
+          </div>
+          <p class="panel-copy">
+            Your edits stay as a local draft until you publish. To update the live website for everyone, enter a GitHub fine-grained token with contents write access to <strong>elmiraliyev123/elmiraliyev123.github.io</strong>.
+          </p>
+          <div class="stack-form">
+            <label>
+              GitHub token
+              <input id="github-token" type="password" autocomplete="off" placeholder="github_pat_..." />
+            </label>
+            <div class="form-actions">
+              <button class="btn btn-primary" id="publish-button" type="button">Publish to website</button>
+              <button class="btn btn-secondary" id="reset-button" type="button">Reset to published</button>
+            </div>
+          </div>
+          <p class="status-message" id="publish-status" role="status" aria-live="polite"></p>
+        </article>
+      </div>
+
+      <section class="panel">
+        <div class="panel-header">
+          <div>
+            <p class="eyebrow">Current Draft</p>
+            <h2>Publications list</h2>
+          </div>
+          <p class="panel-copy">Edit or remove entries below. Changes are saved to this browser as a draft until you publish them.</p>
+        </div>
+        <div class="publication-admin-list" id="admin-publications-list"></div>
+      </section>
+    </section>
+  </main>
+  <script src="admin.js"></script>
+</body>
+</html>
