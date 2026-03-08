@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Publications and technical articles by Elmir Aliyev." />
+  <title>Publications | Elmir Aliyev</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../styles.css" />
+  <link rel="stylesheet" href="publications.css" />
+</head>
+<body>
+  <div class="noise-layer" aria-hidden="true"></div>
+  <main class="shell publications-shell" id="top">
+    <header class="topbar reveal" style="--delay: 40ms">
+      <a class="brand" href="/">Elmir Aliyev</a>
+      <nav class="menu" aria-label="Primary navigation">
+        <a href="/">Home</a>
+        <a href="/publications/">Publications</a>
+      </nav>
+      <div class="socials">
+        <a href="https://www.linkedin.com/in/elmiraliyev1/" target="_blank" rel="noreferrer">LinkedIn</a>
+        <a href="https://github.com/elmiraliyev123" target="_blank" rel="noreferrer">GitHub</a>
+        <a href="mailto:elmir.aliyev@ug.bilkent.edu.tr">Email</a>
+      </div>
+    </header>
+
+    <section class="section reveal" style="--delay: 120ms">
+      <p class="eyebrow">Research & Writing</p>
+      <h1 class="page-title">Publications</h1>
+      <p class="section-subtitle publications-copy">
+        Articles, papers, and long-form technical writeups collected in one place.
+      </p>
+      <div class="publication-list publication-stack" id="publications-list" aria-live="polite"></div>
+    </section>
+
+    <footer class="footer reveal" style="--delay: 180ms">
+      <span>Elmir Aliyev - Backend-Focused Software Engineer</span>
+      <span>© <span id="year"></span> Ankara, Turkey</span>
+    </footer>
+  </main>
+  <script src="../script.js"></script>
+  <script type="module" src="list.js"></script>
+</body>
+</html>

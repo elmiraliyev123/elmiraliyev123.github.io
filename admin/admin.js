@@ -1,8 +1,16 @@
+import {
+  clearDraftPublications,
+  comparePublications,
+  DRAFT_KEY,
+  loadDraftPublications,
+  loadPublishedPublications,
+  normalizePublication,
+  saveDraftPublications,
+  savePublishedPublications,
+} from "../publications/shared-publications.js";
+
 const ADMIN_HASH = "1b1edbf9315d0bb3e53595eb48b719e513e046f6cc70dec4cc49a16cebd6f621";
 const SESSION_KEY = "portfolio-admin-session";
-const DRAFT_KEY = "portfolio-publications-draft";
-const PUBLICATIONS_URL = "/publications.json";
-const GITHUB_CONTENTS_API = "https://api.github.com/repos/elmiraliyev123/elmiraliyev123.github.io/contents/publications.json";
 
 const refs = {
   loginPanel: document.getElementById("login-panel"),
@@ -17,6 +25,7 @@ const refs = {
   type: document.getElementById("publication-type"),
   venue: document.getElementById("publication-venue"),
   summary: document.getElementById("publication-summary"),
+  body: document.getElementById("publication-body"),
   linkLabel: document.getElementById("publication-link-label"),
   url: document.getElementById("publication-url"),
   editorStatus: document.getElementById("editor-status"),
@@ -25,7 +34,6 @@ const refs = {
   clearFormButton: document.getElementById("clear-form-button"),
   resetButton: document.getElementById("reset-button"),
   publishButton: document.getElementById("publish-button"),
-  githubToken: document.getElementById("github-token"),
   logoutButton: document.getElementById("logout-button"),
 };
 
@@ -39,16 +47,9 @@ initialize();
 async function initialize() {
   bindEvents();
 
-  try {
-    const published = await fetchPublishedPublications();
-    state.publishedSnapshot = clonePublications(published);
-    state.publications = loadDraft() || clonePublications(published);
-  } catch (error) {
-    state.publications = loadDraft() || [];
-    setStatus(refs.publishStatus, "Unable to load the published publications list. Draft mode is still available.", "error");
-    console.error(error);
-  }
-
+  const published = await loadPublishedPublications();
+  state.publishedSnapshot = clonePublications(published);
+  state.publications = loadDraftPublications() || clonePublications(published);
   renderPublicationsList();
 
   if (sessionStorage.getItem(SESSION_KEY) === "1") {
@@ -63,7 +64,7 @@ function bindEvents() {
   refs.publicationForm.addEventListener("submit", handleSavePublication);
   refs.clearFormButton.addEventListener("click", resetForm);
   refs.resetButton.addEventListener("click", resetToPublished);
-  refs.publishButton.addEventListener("click", publishToWebsite);
+  refs.publishButton.addEventListener("click", publishArticles);
   refs.logoutButton.addEventListener("click", logout);
   refs.adminList.addEventListener("click", handleListAction);
 }
@@ -112,6 +113,7 @@ function handleSavePublication(event) {
     type: refs.type.value,
     venue: refs.venue.value,
     summary: refs.summary.value,
+    body: refs.body.value,
     linkLabel: refs.linkLabel.value,
     url: refs.url.value,
   });
@@ -121,18 +123,23 @@ function handleSavePublication(event) {
     return;
   }
 
+  if (!publication.body) {
+    setStatus(refs.editorStatus, "Full article body is required.", "error");
+    return;
+  }
+
   const existingIndex = state.publications.findIndex((entry) => entry.id === publication.id);
 
   if (existingIndex >= 0) {
     state.publications[existingIndex] = publication;
-    setStatus(refs.editorStatus, "Publication updated in local draft.", "success");
+    setStatus(refs.editorStatus, "Article updated in local draft.", "success");
   } else {
     state.publications.push(publication);
-    setStatus(refs.editorStatus, "Publication added to local draft.", "success");
+    setStatus(refs.editorStatus, "Article added to local draft.", "success");
   }
 
   state.publications.sort(comparePublications);
-  persistDraft();
+  saveDraftPublications(state.publications);
   renderPublicationsList();
   resetForm();
 }
@@ -159,9 +166,9 @@ function handleListAction(event) {
 
   if (actionButton.dataset.action === "delete") {
     state.publications = state.publications.filter((entry) => entry.id !== publicationId);
-    persistDraft();
+    saveDraftPublications(state.publications);
     renderPublicationsList();
-    setStatus(refs.editorStatus, "Publication removed from local draft.", "success");
+    setStatus(refs.editorStatus, "Article removed from local draft.", "success");
 
     if (refs.publicationId.value === publicationId) {
       resetForm();
@@ -177,6 +184,7 @@ function populateForm(publication) {
   refs.type.value = publication.type;
   refs.venue.value = publication.venue;
   refs.summary.value = publication.summary;
+  refs.body.value = publication.body;
   refs.linkLabel.value = publication.linkLabel;
   refs.url.value = publication.url;
   setStatus(refs.editorStatus, `Editing \"${publication.title}\".`, "success");
@@ -187,105 +195,19 @@ function resetForm() {
   refs.publicationId.value = "";
 }
 
-async function resetToPublished() {
-  try {
-    const published = await fetchPublishedPublications();
-    state.publishedSnapshot = clonePublications(published);
-    state.publications = clonePublications(published);
-    localStorage.removeItem(DRAFT_KEY);
-    renderPublicationsList();
-    resetForm();
-    setStatus(refs.publishStatus, "Draft reset to the currently published list.", "success");
-  } catch (error) {
-    setStatus(refs.publishStatus, "Could not reload the published publications list.", "error");
-    console.error(error);
-  }
+function resetToPublished() {
+  state.publications = clonePublications(state.publishedSnapshot);
+  localStorage.removeItem(DRAFT_KEY);
+  renderPublicationsList();
+  resetForm();
+  setStatus(refs.publishStatus, "Draft reset to the currently published article set.", "success");
 }
 
-async function publishToWebsite() {
-  const token = refs.githubToken.value.trim();
-
-  if (!token) {
-    setStatus(refs.publishStatus, "Enter a GitHub token with contents write access before publishing.", "error");
-    return;
-  }
-
-  refs.publishButton.disabled = true;
-  setStatus(refs.publishStatus, "Publishing changes to GitHub...", "success");
-
-  try {
-    const sha = await fetchCurrentFileSha(token);
-    const content = `${JSON.stringify(state.publications, null, 2)}\n`;
-    const payload = {
-      message: `Update publications ${new Date().toISOString()}`,
-      content: toBase64(content),
-      branch: "main",
-    };
-
-    if (sha) {
-      payload.sha = sha;
-    }
-
-    const response = await fetch(GITHUB_CONTENTS_API, {
-      method: "PUT",
-      headers: {
-        Accept: "application/vnd.github+json",
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
-    });
-
-    if (!response.ok) {
-      const errorPayload = await response.json().catch(() => ({}));
-      throw new Error(errorPayload.message || `GitHub publish failed with ${response.status}`);
-    }
-
-    localStorage.removeItem(DRAFT_KEY);
-    state.publishedSnapshot = clonePublications(state.publications);
-    setStatus(refs.publishStatus, "Publications published. GitHub Pages will update the live site shortly.", "success");
-  } catch (error) {
-    setStatus(refs.publishStatus, error.message, "error");
-    console.error(error);
-  } finally {
-    refs.publishButton.disabled = false;
-  }
-}
-
-async function fetchCurrentFileSha(token) {
-  const response = await fetch(GITHUB_CONTENTS_API, {
-    headers: {
-      Accept: "application/vnd.github+json",
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
-  if (response.status === 404) {
-    return null;
-  }
-
-  if (!response.ok) {
-    const errorPayload = await response.json().catch(() => ({}));
-    throw new Error(errorPayload.message || `Unable to read publications.json (${response.status})`);
-  }
-
-  const data = await response.json();
-  return data.sha;
-}
-
-async function fetchPublishedPublications() {
-  const response = await fetch(`${PUBLICATIONS_URL}?v=${Date.now()}`, {
-    cache: "no-store",
-  });
-
-  if (!response.ok) {
-    throw new Error(`Failed to load publications (${response.status})`);
-  }
-
-  const publications = await response.json();
-  return Array.isArray(publications)
-    ? publications.map(normalizePublication).sort(comparePublications)
-    : [];
+function publishArticles() {
+  savePublishedPublications(state.publications);
+  clearDraftPublications();
+  state.publishedSnapshot = clonePublications(state.publications);
+  setStatus(refs.publishStatus, "Articles published. Refresh /publications/ to see the updated article list.", "success");
 }
 
 function renderPublicationsList() {
@@ -296,11 +218,11 @@ function renderPublicationsList() {
     emptyState.className = "empty-state";
 
     const title = document.createElement("h3");
-    title.textContent = "No publications in the draft yet.";
+    title.textContent = "No articles in the draft yet.";
 
     const copy = document.createElement("p");
     copy.className = "publication-summary";
-    copy.textContent = "Create the first publication with the form above, then publish it to update the live portfolio.";
+    copy.textContent = "Create the first article with the form above, then publish it to the publications pages.";
 
     emptyState.append(title, copy);
     refs.adminList.append(emptyState);
@@ -328,7 +250,7 @@ function createAdminCard(publication) {
 
   const summary = document.createElement("p");
   summary.className = "publication-summary";
-  summary.textContent = publication.summary || "No summary added yet.";
+  summary.textContent = publication.summary || publication.body.slice(0, 180);
 
   const actions = document.createElement("div");
   actions.className = "publication-admin-actions";
@@ -352,53 +274,6 @@ function createActionButton(label, action, id) {
   return button;
 }
 
-function normalizePublication(publication = {}) {
-  return {
-    id: String(publication.id || crypto.randomUUID()),
-    title: String(publication.title || "").trim(),
-    authors: String(publication.authors || "").trim(),
-    year: String(publication.year || "").trim(),
-    type: String(publication.type || "").trim(),
-    venue: String(publication.venue || "").trim(),
-    summary: String(publication.summary || "").trim(),
-    linkLabel: String(publication.linkLabel || "").trim(),
-    url: String(publication.url || "").trim(),
-  };
-}
-
-function comparePublications(left, right) {
-  const leftYear = Number.parseInt(left.year, 10) || 0;
-  const rightYear = Number.parseInt(right.year, 10) || 0;
-
-  if (leftYear !== rightYear) {
-    return rightYear - leftYear;
-  }
-
-  return left.title.localeCompare(right.title);
-}
-
-function persistDraft() {
-  localStorage.setItem(DRAFT_KEY, JSON.stringify(state.publications));
-}
-
-function loadDraft() {
-  const rawDraft = localStorage.getItem(DRAFT_KEY);
-
-  if (!rawDraft) {
-    return null;
-  }
-
-  try {
-    const parsed = JSON.parse(rawDraft);
-    return Array.isArray(parsed)
-      ? parsed.map(normalizePublication).sort(comparePublications)
-      : null;
-  } catch (error) {
-    console.error(error);
-    return null;
-  }
-}
-
 function clonePublications(publications) {
   return publications.map((publication) => ({ ...publication }));
 }
@@ -417,15 +292,4 @@ async function sha256(value) {
   return Array.from(new Uint8Array(digest))
     .map((byte) => byte.toString(16).padStart(2, "0"))
     .join("");
-}
-
-function toBase64(value) {
-  let binary = "";
-  const bytes = new TextEncoder().encode(value);
-
-  bytes.forEach((byte) => {
-    binary += String.fromCharCode(byte);
-  });
-
-  return btoa(binary);
 }

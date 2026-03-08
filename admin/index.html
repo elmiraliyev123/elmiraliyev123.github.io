@@ -19,7 +19,7 @@
       <p class="eyebrow">Hidden Route</p>
       <h1>Publications Admin</h1>
       <p class="hero-copy">
-        Manage the publications section of the portfolio. This page is intentionally not linked in the public navbar.
+        Create full publication articles, manage the article list, and publish changes for the publications pages.
       </p>
     </section>
 
@@ -55,7 +55,7 @@
           <div class="panel-header">
             <div>
               <p class="eyebrow">Editor</p>
-              <h2>Add or update publication</h2>
+              <h2>Add or update article</h2>
             </div>
             <button class="text-button" id="logout-button" type="button">Logout</button>
           </div>
@@ -79,7 +79,7 @@
 
             <label class="field">
               Type
-              <input id="publication-type" name="type" type="text" placeholder="Journal, Preprint, Conference" />
+              <input id="publication-type" name="type" type="text" placeholder="Journal, Article, Preprint" />
             </label>
 
             <label class="field field-wide">
@@ -88,22 +88,27 @@
             </label>
 
             <label class="field field-wide">
-              Summary
-              <textarea id="publication-summary" name="summary" rows="4" placeholder="Short abstract or one-paragraph summary"></textarea>
+              Summary / excerpt
+              <textarea id="publication-summary" name="summary" rows="3" placeholder="Short summary used in the publications list"></textarea>
+            </label>
+
+            <label class="field field-wide">
+              Full article body
+              <textarea id="publication-body" name="body" rows="10" placeholder="Write the full article here. Separate paragraphs with blank lines."></textarea>
             </label>
 
             <label class="field">
-              Link label
-              <input id="publication-link-label" name="linkLabel" type="text" placeholder="Open publication" />
+              External link label
+              <input id="publication-link-label" name="linkLabel" type="text" placeholder="Open source" />
             </label>
 
             <label class="field">
-              Link URL
+              External link URL
               <input id="publication-url" name="url" type="url" placeholder="https://..." />
             </label>
 
             <div class="form-actions field-wide">
-              <button class="btn btn-primary" type="submit">Save publication</button>
+              <button class="btn btn-primary" type="submit">Save article draft</button>
               <button class="btn btn-secondary" id="clear-form-button" type="button">Clear form</button>
             </div>
           </form>
@@ -114,21 +119,15 @@
           <div class="panel-header">
             <div>
               <p class="eyebrow">Publish</p>
-              <h2>Push changes live</h2>
+              <h2>Publish article set</h2>
             </div>
           </div>
           <p class="panel-copy">
-            Your edits stay as a local draft until you publish. To update the live website for everyone, enter a GitHub fine-grained token with contents write access to <strong>elmiraliyev123/elmiraliyev123.github.io</strong>.
+            Publishing applies the current draft to the publications pages in this browser immediately. No personal access token is required.
           </p>
-          <div class="stack-form">
-            <label>
-              GitHub token
-              <input id="github-token" type="password" autocomplete="off" placeholder="github_pat_..." />
-            </label>
-            <div class="form-actions">
-              <button class="btn btn-primary" id="publish-button" type="button">Publish to website</button>
-              <button class="btn btn-secondary" id="reset-button" type="button">Reset to published</button>
-            </div>
+          <div class="form-actions publish-actions">
+            <button class="btn btn-primary" id="publish-button" type="button">Publish articles</button>
+            <button class="btn btn-secondary" id="reset-button" type="button">Reset to published</button>
           </div>
           <p class="status-message" id="publish-status" role="status" aria-live="polite"></p>
         </article>
@@ -138,14 +137,14 @@
         <div class="panel-header">
           <div>
             <p class="eyebrow">Current Draft</p>
-            <h2>Publications list</h2>
+            <h2>Article list</h2>
           </div>
-          <p class="panel-copy">Edit or remove entries below. Changes are saved to this browser as a draft until you publish them.</p>
+          <p class="panel-copy">Edit or remove entries below. The publications page only shows the published set.</p>
         </div>
         <div class="publication-admin-list" id="admin-publications-list"></div>
       </section>
     </section>
   </main>
-  <script src="admin.js"></script>
+  <script type="module" src="admin.js"></script>
 </body>
 </html>
